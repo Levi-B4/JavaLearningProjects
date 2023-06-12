@@ -1,6 +1,5 @@
 import java.math.BigDecimal;
 import java.util.Scanner;
-import java.io.Console;
 import java.lang.Math;
 
 public class CompoundInterestCalculator {
