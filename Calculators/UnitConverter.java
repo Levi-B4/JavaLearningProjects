@@ -6,33 +6,38 @@ public class UnitConverter {
     double milesInOneKilometer = 0.621;
     double kilometersInOneMile = 1.609;
 
+    String[] units = {"liters", "gallons", "kilometers", "miles"};
+    double[] unitConversionRates = {gallonsInOneLiter, litersInOneGallon, milesInOneKilometer, kilometersInOneMile};
+
     UnitConverter() {
 
         Scanner sc = new Scanner(System.in);
 
+        for (int i = 0; i < units.length; i++) {
+            String fromUnit = units[i];
+            String toUnit = i%2 == 0 ? units[i+1] : units[i-1];
+            double conversionRate = unitConversionRates[i];
+            double value = 0.0;
 
+            boolean validInput = false;
 
-        System.out.print("1. liters to gallons:\n" +
-                                "Please enter a value for liters: ");
-        double liters = sc.nextDouble();
-        System.out.printf("%,.2f liters = %,.2f gallons\n\n", liters, (liters * gallonsInOneLiter));
-
-        System.out.print("1. gallons to liters:\n" +
-                                "Please enter a value for gallons: ");
-        double gallons = sc.nextDouble();
-        System.out.printf("%,.2f gallons = %,.2f liters\n\n", gallons, (gallons * litersInOneGallon));
-        
-        System.out.print("1. km to miles:\n" +
-                                "Please enter a value for kilometers: ");
-        double kilometers = sc.nextDouble();
-        System.out.printf("%,.2f kilometers = %,.2f miles\n\n", kilometers, (kilometers * milesInOneKilometer));
-
-        System.out.print("1. miles to km:\n" +
-                                "Please enter a value for miles: ");
-        double miles = sc.nextDouble();
-        System.out.printf("%,.2f miles = %,.2f kilometers\n\n", miles, (miles * kilometersInOneMile));
-
+            while(!validInput){
+                System.out.printf("%d. %s to %s:\n" +
+                                    "Please enter a value for %s: ", i + 1, fromUnit, toUnit, fromUnit);
+                try {
+                    value = Integer.parseInt(sc.nextLine());
+                    validInput = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("\nPlease enter a valid number");
+                }
+            }
+            printConversion(fromUnit, toUnit, value, conversionRate);
+        }
 
         sc.close();
+    }
+
+    public void printConversion(String fromUnit, String toUnit, double value, double conversionRate) {
+        System.out.printf("%,.2f %s = %,.2f %s\n\n", value, fromUnit, (value * conversionRate), toUnit);
     }
 }
