@@ -15,16 +15,42 @@ public class CompoundInterestCalculator {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("What is the initial deposit or loan?");
-        principleInvestment = sc.nextBigDecimal();
+        try {
+            principleInvestment = sc.nextBigDecimal();
+        } catch (Exception e) {
+            System.out.println("The entered number was not valid.");
+            sc.close();
+            return;
+        }
+        
+
 
         System.out.println("What is the interest rate?(In percentage)");
-        interestRate = sc.nextDouble()/100;
+        try {
+            interestRate = sc.nextDouble()/100;
+        } catch (Exception e) {
+            System.out.println("The entered number was not valid.");
+            sc.close();
+            return;
+        }
 
         System.out.println("How often per year is it compounded");
-        compoundsPerYear = sc.nextInt();
+        try {
+            compoundsPerYear = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("The entered number was not valid.");
+            sc.close();
+            return;
+        }
 
         System.out.println("How many years is the money gaining interest?");
-        years = sc.nextInt();
+        try {
+            years = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("The entered number was not valid.");
+            sc.close();
+            return;
+        }
 
         finalValue = calculateCompoundInterest(principleInvestment, interestRate, compoundsPerYear, years);
         totalInterest = finalValue.subtract(principleInvestment);
@@ -50,5 +76,4 @@ public class CompoundInterestCalculator {
 
         return result;
     }
-
 }
