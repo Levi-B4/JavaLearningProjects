@@ -35,21 +35,22 @@ public class SeatReservation{
         double reservationCost = 0;
         for(int i = 0; i < numSeats; i++){
             String row = getRow(sc);
-            if(row == "A"){
-                reservationCost = makeReservation(rowASeats, rowAPrices);
-            } else if(row == "B"){
-                reservationCost = makeReservation(rowBSeats, rowBPrices);
+            if(row.equals("A")){
+                reservationCost = makeReservation(rowASeats, rowAPrices, row, sc);
+            } else{
+                reservationCost = makeReservation(rowBSeats, rowBPrices, row, sc);
             }
             total += reservationCost;
-            System.out.printf("Current Total Cost: $%.2f", total);
+            System.out.printf("Current Total Cost: $%.2f\n", total);
+            System.out.println("-------");
         }
 
-        printReceipt();
+        printReceipt(numSeats, total);
 
         sc.close();
     }
 
-    private static void display(String[] rowASeats, String[] rowBSeats, 
+    public static void display(String[] rowASeats, String[] rowBSeats, 
                                 double[] rowAPrices, double[] rowBPrices) {
         System.out.println("Welcome to our event! Here's our seating chart with prices:\nSteating Chart");
 
@@ -95,23 +96,65 @@ public class SeatReservation{
         System.out.println(output);
     }
 
-    private static String getRow(Scanner scan) {
-        String row = "";
+    public static String getRow(Scanner scan) {
         System.out.println("Would you like row A or Row B");
+        String row = scan.nextLine();
         while(true){
-            row = scan.nextLine();
-            if(row.toLowerCase() == "a" || row.toLowerCase() == "b"){
-                return row.toUpperCase();
+            if(row.toUpperCase().equals("A") || row.toUpperCase().equals("B")){
+                break;
             }
             System.out.println("Please enter your desired row (A, B)");
+            row = scan.nextLine();
+            System.out.println("Row: " + row);
         }
+        return row.toUpperCase();
     }
     
-    private static double makeReservation(String[] rowASeats, double[] rowAPrices) {
-        return 0;
+    public static double makeReservation(String[] rowSeats, double[] rowPrices, String row, Scanner scan) {
+        printRowSeats(rowSeats, 32);
+        printRowPrices(rowPrices, 32);
+
+        //get seat selection
+        System.out.println("Which seat would you like? (1, 2, 3)");
+        String seatNumString = "";
+        while(true){
+            seatNumString = scan.nextLine();
+            if((seatNumString.equals("1")) || (seatNumString.equals("2")) || (seatNumString.equals("3"))) break;
+            System.out.println("Please enter a valid seat number (1, 2, 3)");
+        }
+        int seatNum = Integer.parseInt(seatNumString);
+        double seatCost = rowPrices[seatNum - 1];
+        System.out.printf("You chose seat %s\n", seatNum);
+        System.out.printf("The price of the seat is: $%.2f\n", seatCost);
+
+        System.out.println("Updated Row Chart:");
+        updateSeatingChart(rowSeats, seatNum);
+
+        printRowSeats(rowSeats, 32);
+        printRowPrices(rowPrices, 32);
+
+        return seatCost;
     }
 
-    private static void printReceipt() {
+    public static void updateSeatingChart(String[] rowSeats, int seatNum){
+        rowSeats[seatNum - 1] = "X";
+    }
+
+    public static void printReceipt(int numSeats, double total) {
+        double feePerSeat = 14.99;
+        double fees = numSeats * feePerSeat;
+        double taxes = 16.99; //tax percent wasn't given so I just used flat number in example
+        double grandTotal = total + fees + taxes;
+        
+        System.out.printf(
+        "Thank you for reserving with us. Here's your receipt:\n" + 
+        "-----------------------------------------------------\n" +
+        "Subtotal: $%.2f\n" +
+        "Fees: %d x $%.2f = $%.2f\n" +
+        "Taxes: $%.2f\n" +
+        "=====================================================\n" +
+        "Total: $%.2f\n" +
+        "-----------------------------------------------------\n", total, numSeats, feePerSeat, fees, taxes, grandTotal);
     }
 
 
