@@ -105,7 +105,6 @@ public class SeatReservation{
             }
             System.out.println("Please enter your desired row (A, B)");
             row = scan.nextLine();
-            System.out.println("Row: " + row);
         }
         return row.toUpperCase();
     }
