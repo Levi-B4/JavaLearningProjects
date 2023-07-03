@@ -15,8 +15,8 @@ public class BatterUp4{
         while(outs < 3){
             for (int i = 0; i < players.length; i++) {
                 System.out.printf("\nSCORE: %d\n", score);
-                System.out.printf("%s is up to bat with %d outs\n", players[i], outs);
                 playerLocations[i] = 0;
+                System.out.printf("%s is up to bat with %d outs\n", players[i], outs);
                 if(batterTakeTurn()){
                     outs += 1;
                     playerLocations[i] = -1;
@@ -58,7 +58,7 @@ public class BatterUp4{
                 case -2:
                     balls++;
                     System.out.println("Ball!");
-                    if(balls >= 4){
+                    if(balls == 4){
                         System.out.println("Walk");
                         movePlayers(1);
                     }
@@ -66,7 +66,7 @@ public class BatterUp4{
                 case -1:
                     System.out.println("Strike!");
                     strikes++;
-                    if(strikes >= 3){
+                    if(strikes == 3){
                         System.out.println("Strike out!!");
                         isOut = true;
                     }
