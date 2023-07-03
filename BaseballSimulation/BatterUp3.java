@@ -4,16 +4,26 @@ public class BatterUp3{
     public static String[] batters = new String[]{
         "BatterName1", "BatterName2", "BatterName3", "BatterName4", "BatterName5", "BatterName6", "BatterName7", "BatterName8", "BatterName9"
     };
+    // -1 is not batting, 0 is batting
+    public static int[] batterLocations = new int[]{
+        -1, -1, -1, -1, -1, -1, -1, -1, -1
+    };
+    
     public static void main(String[] args){
         int outs = 0;
         while(outs < 3){
-            for (String batter : batters) {
-                System.out.printf("%s is up to bat with %d outs\n", batter, outs); //will change players location here (-1,0) = (dugout, at bat)
+            for (int i = 0; i < batters.length; i++) {
+                //move batter to batting
+                batterLocations[i] = 0;
+                System.out.printf("%s is up to bat with %d outs\n", batters[i], outs);
                 if(batterTakeTurn()){
                     outs += 1;
-                    if(outs >= 3){
-                        break;
-                    }
+                }
+                //remove batter from batting
+                batterLocations[i] = -1;
+                //end inning
+                if(outs >= 3){
+                    break;
                 }
             }
         }
