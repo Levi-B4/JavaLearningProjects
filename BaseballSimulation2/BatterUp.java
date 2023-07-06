@@ -1,7 +1,7 @@
 public class BatterUp {
-    public int outs;
-    public int score;
-    public int nextPlayerIndex;
+    private int outs;
+    private int score;
+    private int nextPlayerIndex;
 
     public BatterUp() {
         

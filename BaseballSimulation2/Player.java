@@ -1,11 +1,14 @@
 public class Player {
     
-    public String name;
-    public int strikes;
-    public int balls;
+    private String name;
+    private Base location;
+    private int strikes;
+    private int balls;
 
-    public Player(String name, Base base){
-
+    public Player(String name, Base location){
+        this.name = name;
+        //location should be dugout when instantiating
+        this.location = location;
     }
 
     public String getName(){
