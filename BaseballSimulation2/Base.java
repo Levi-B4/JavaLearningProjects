@@ -22,6 +22,10 @@ public class Base {
     }
 
     public String toString(){
-        return "PLACEHOLDER";
+        if(isDugout() || name == "BatterBox"){
+            return name;
+        }else{
+            return String.format("%s Base", name);
+        }
     }
 }

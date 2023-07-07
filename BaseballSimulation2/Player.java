@@ -47,8 +47,10 @@ public class Player {
     
         //walk or strikeout
         if(balls == 4){
+            System.out.println("WALK");
             return 1;
         } else{
+            System.out.println("STRIKEOUT");
             return 0;
         }
     }
@@ -59,22 +61,41 @@ public class Player {
         int dice1 = rand.nextInt(6) + 1;
         int dice2 = rand.nextInt(6) + 1;
         
-        System.out.printf("Roll: %d", dice1);
+        System.out.printf("Rolls: %d", dice1);
         System.out.printf(" %d    ", dice2);
         
         if(dice1 == dice2 && dice1 <= 4){
+            switch (dice1) {
+                case 1:
+                    System.out.println("SINGLE");
+                    break;
+
+                case 2:
+                    System.out.println("DOUBLE");
+                    break;
+
+                case 3:
+                    System.out.println("TRIPPLE");
+                    break;
+            
+                default:
+                System.out.print("HOMERUN");
+                    break;
+            }
             return dice1;
         } else{
             if((dice1 + dice2 )% 2 == 0){
-                strikes =+ 1;
+                strikes++;
+                System.out.println("STRIKE");
             } else{
-                balls += 1;
+                System.out.println("BALL");
+                balls++;
             }
             return 0;
         }
     }
 
     public String toString(){
-        return "PLACEHOLDER";
+        return name;
     }
 }

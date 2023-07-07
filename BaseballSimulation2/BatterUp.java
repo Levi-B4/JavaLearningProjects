@@ -5,15 +5,15 @@ public class BatterUp {
     private int outs;
     private int score;
     private int nextPlayerIndex;
-    private ArrayList<Player> players;
     private Field field;
+    private ArrayList<Player> players;
 
     public BatterUp() {
         outs = 0;
         score = 0;
         nextPlayerIndex = 0;
+        this.field = new Field();
         CreatePlayers();
-        field = new Field();
     }
 
     public void CreatePlayers(){
@@ -34,7 +34,7 @@ public class BatterUp {
     public Player getNextPlayer(){
         Player nextPlayer = players.get(nextPlayerIndex);
         nextPlayerIndex += 1;
-        if(nextPlayerIndex > players.size()){
+        if(nextPlayerIndex == players.size()){
             nextPlayerIndex = 0;
         }
         return nextPlayer;
@@ -42,9 +42,10 @@ public class BatterUp {
 
     public void Play(){
         while(outs < 3){
+            System.out.printf("SCORE: %d\n\n", score);
             displayField();
             Player nextPlayer = getNextPlayer();
-            System.out.printf("%s is batting", nextPlayer.getName());
+            System.out.printf("%s is batting\n", nextPlayer.getName());
             nextPlayer.setLocation(field.getBatterBox());
             int battingValue = nextPlayer.takeTurn();
             if(battingValue == 0){
