@@ -42,7 +42,7 @@ public class BatterUp {
 
     public void Play(){
         while(outs < 3){
-            System.out.printf("SCORE: %d\n\n", score);
+            System.out.printf("\nSCORE: %d\n\n", score);
             displayField();
             Player nextPlayer = getNextPlayer();
             System.out.printf("%s is batting\n", nextPlayer.getName());
@@ -50,6 +50,7 @@ public class BatterUp {
             int battingValue = nextPlayer.takeTurn();
             if(battingValue == 0){
                 outs++;
+                nextPlayer.setLocation(field.getDugout());
             }else{
                 movePlayers(battingValue);
             }
@@ -62,7 +63,7 @@ public class BatterUp {
                 player.setLocation(field.moveAhead(player.getLocation(), basesToMove));
                 if(player.getLocation().isHome()){
                     score++;
-                    System.out.printf("%s scored", player.getName());
+                    System.out.printf("%s scored\n", player.getName());
                     player.setLocation(field.getDugout());
                 }
             }
@@ -90,6 +91,6 @@ public class BatterUp {
                     break;
             }
         }
-        System.out.printf("[ 1 ] %s  [ 2 ] %s  [ 3 ] %s\n", playersOnBase[0], playersOnBase[1], playersOnBase[2]);
+        System.out.printf("[ 1 ] %s  [ 2 ] %s  [ 3 ] %s\n\n", playersOnBase[0], playersOnBase[1], playersOnBase[2]);
     }
 }

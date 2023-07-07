@@ -30,7 +30,7 @@ public class Player {
     }
 
     public boolean isNotInDugout(){
-        return location.isDugout();
+        return !location.isDugout();
     }
 
     public int takeTurn(){
@@ -47,10 +47,10 @@ public class Player {
     
         //walk or strikeout
         if(balls == 4){
-            System.out.println("WALK");
+            System.out.println("  WALK");
             return 1;
         } else{
-            System.out.println("STRIKEOUT");
+            System.out.println("  STRIKEOUT");
             return 0;
         }
     }
@@ -61,7 +61,7 @@ public class Player {
         int dice1 = rand.nextInt(6) + 1;
         int dice2 = rand.nextInt(6) + 1;
         
-        System.out.printf("Rolls: %d", dice1);
+        System.out.printf("  Rolled: %d", dice1);
         System.out.printf(" %d    ", dice2);
         
         if(dice1 == dice2 && dice1 <= 4){
@@ -79,7 +79,7 @@ public class Player {
                     break;
             
                 default:
-                System.out.print("HOMERUN");
+                System.out.println("HOMERUN");
                     break;
             }
             return dice1;
