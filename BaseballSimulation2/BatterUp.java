@@ -69,7 +69,7 @@ public class BatterUp {
     }
 
     public void displayField(){
-        String[] playersOnBase = new String[3];
+        String[] playersOnBase = new String[]{"Empty", "Empty", "Empty"};
         for (Player player : players) {
             String locationName = player.getLocation().getName();
             switch (locationName) {
