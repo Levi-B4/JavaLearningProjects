@@ -6,6 +6,8 @@ public class Player {
     private Base location;
     private int strikes;
     private int balls;
+    private int hits;
+    private int atBats;
 
     public Player(String name, Base location){
         this.name = name;
@@ -29,18 +31,40 @@ public class Player {
         this.location = location;
     }
 
+    public int getHits(){
+        return hits;
+    }
+
+    public void setHits(int hits){
+        this.hits = hits;
+    }
+
+    public int getAtBats(){
+        return atBats;
+    }
+
+    public void setAtBats(int atBats){
+        this.atBats = atBats;
+    }
+
     public boolean isNotInDugout(){
         return !location.isDugout();
     }
 
     public int takeTurn(){
+        atBats++;
         strikes = 0;
         balls = 0;
+        
         int batterBatResult;
-
+        int currentBalls;
         while(strikes < 3 && balls < 4){
+            currentBalls = balls;
             batterBatResult = bat();
             if(batterBatResult > 0){
+                if(currentBalls == balls){
+                    hits++;
+                }
                 return batterBatResult;
             }
         }
@@ -56,16 +80,11 @@ public class Player {
     }
 
     public int bat(){
-        Random rand = new Random();
-        //simulate two dice rolls
-        int dice1 = rand.nextInt(6) + 1;
-        int dice2 = rand.nextInt(6) + 1;
-        
-        System.out.printf("  Rolled: %d", dice1);
-        System.out.printf(" %d    ", dice2);
-        
-        if(dice1 == dice2 && dice1 <= 4){
-            switch (dice1) {
+        //simulate dice rolls
+        int[] rolls = roll();
+
+        if(rolls[0] == rolls[1] && rolls[0] <= 4){
+            switch (rolls[0]) {
                 case 1:
                     System.out.println("SINGLE");
                     break;
@@ -82,9 +101,9 @@ public class Player {
                 System.out.println("HOMERUN");
                     break;
             }
-            return dice1;
+            return rolls[0];
         } else{
-            if((dice1 + dice2 )% 2 == 0){
+            if((rolls[0] + rolls[1] )% 2 == 0){
                 strikes++;
                 System.out.println("STRIKE");
             } else{
@@ -93,6 +112,23 @@ public class Player {
             }
             return 0;
         }
+    }
+
+    public int[] roll(){
+        Random rand = new Random();
+        
+        //simulate two dice rolls
+        int dice1 = rand.nextInt(6) + 1;
+        int dice2 = rand.nextInt(6) + 1;
+        
+        System.out.printf("  Rolled: %d", dice1);
+        System.out.printf(" %d    ", dice2);
+        
+        return new int[]{dice1, dice2};
+    }
+
+    public double getBattingAverage(){
+        return atBats/hits;
     }
 
     public String toString(){
