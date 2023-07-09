@@ -1,12 +1,14 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BatterUp {
     private int outs;
     private int score;
     private int nextPlayerIndex;
     private Field field;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<Player>();
 
     public BatterUp() {
         outs = 0;
@@ -18,17 +20,38 @@ public class BatterUp {
 
     public void CreatePlayers(){
         Base dugout = field.getDugout();
-        players = new ArrayList<Player>(Arrays.asList(
-            new Player("Larry", dugout),
-            new Player("Landon", dugout),
-            new Player("Levi", dugout),
-            new Player("Lionel", dugout),
-            new Player("Liam", dugout),
-            new Player("Lucy", dugout),
-            new Player("Lucas", dugout),
-            new Player("Logan", dugout),
-            new Player("Lincoln", dugout)
-        ));
+        Path path = Paths.get("Roster.txt");
+        System.out.printf("Retrieving players from %s\n", path);
+        Scanner scan;
+        try {
+            scan = new Scanner(path);
+        } catch (Exception e) {
+            System.out.printf("Could not find file: %s\n, please create this file", path);
+            scan = new Scanner(System.in);
+        }
+        System.out.println("Reading text file using Scanner");
+        //read line by line
+        while(scan.hasNextLine()){
+            //process each line
+            String line = scan.nextLine();
+            if(!line.matches("\\s*")){
+                String[] playerData = line.split("(\\s*,\\s*)[Player|Ringer|Dud]"/* "[\\w]+(,)[pP]layer|[rR]inger|[dD]inger\\s$"*/); //edit so that only that last ", " is removed
+                switch (playerData[1]) {
+                    case "Ringer":
+                        players.add(new Ringer(playerData[0], dugout));
+                        break;
+
+                    case "Dud":
+                        players.add(new Dud(playerData[0], dugout));
+                        break;
+                
+                    default:
+                        players.add(new Player(playerData[0], dugout));
+                        break;
+                }
+            }
+        }
+        scan.close();
     }
 
     public Player getNextPlayer(){
@@ -41,18 +64,22 @@ public class BatterUp {
     }
 
     public void Play(){
-        while(outs < 3){
-            System.out.printf("\nSCORE: %d\n\n", score);
-            displayField();
-            Player nextPlayer = getNextPlayer();
-            System.out.printf("%s is batting\n", nextPlayer.getName());
-            nextPlayer.setLocation(field.getBatterBox());
-            int battingValue = nextPlayer.takeTurn();
-            if(battingValue == 0){
-                outs++;
-                nextPlayer.setLocation(field.getDugout());
-            }else{
-                movePlayers(battingValue);
+        int inning = 0;
+        while(inning < 9){
+            while(outs < 3){
+                System.out.printf("\nSCORE: %d\n\n", score);
+                displayField();
+                Player nextPlayer = getNextPlayer();
+                System.out.printf("%s is batting\n", nextPlayer.getName());
+                nextPlayer.setLocation(field.getBatterBox());
+                int battingValue = nextPlayer.takeTurn();
+                if(battingValue == 0){
+                    outs++;
+                    nextPlayer.setLocation(field.getDugout());
+                }else{
+                    movePlayers(battingValue);
+                }
+                inning++;
             }
         }
     }
