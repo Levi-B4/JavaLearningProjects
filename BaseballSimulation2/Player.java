@@ -128,7 +128,11 @@ public class Player {
     }
 
     public double getBattingAverage(){
-        return atBats/hits;
+        if(atBats == 0){
+            return 0;
+        } else{
+            return hits/atBats;
+        }
     }
 
     public String toString(){

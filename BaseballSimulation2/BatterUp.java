@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 
 public class BatterUp {
     private int outs;
@@ -20,7 +23,7 @@ public class BatterUp {
 
     public void CreatePlayers(){
         Base dugout = field.getDugout();
-        Path path = Paths.get("Roster.txt");
+        Path path = Paths.get("players.txt");
         System.out.printf("Retrieving players from %s\n", path);
         Scanner scan;
         try {
@@ -63,7 +66,7 @@ public class BatterUp {
         return nextPlayer;
     }
 
-    public void Play(){
+    public void Play() throws IOException{
         int inning = 0;
         while(inning < 9){
             while(outs < 3){
@@ -81,7 +84,9 @@ public class BatterUp {
                 }
                 inning++;
             }
+            outs = 0;
         }
+        printStats();
     }
 
     public void movePlayers(int basesToMove){
@@ -119,5 +124,29 @@ public class BatterUp {
             }
         }
         System.out.printf("[ 1 ] %s  [ 2 ] %s  [ 3 ] %s\n\n", playersOnBase[0], playersOnBase[1], playersOnBase[2]);
+    }
+
+    public void printStats() throws IOException{
+        String gameStatsFileName = "gameStats.txt";
+        //create or clear the stats file
+        File file = new File(gameStatsFileName);
+        boolean fileExists = !file.createNewFile();
+        PrintWriter writer = new PrintWriter("gameStats.txt", "UTF-8");
+        if(fileExists){
+            writer.print("");
+        }
+        writer.println(
+            "GAME STATS:\n" +
+            "****************************************\n" +
+            "PLAYER        HITS  AT-BATS AVERAGE"
+        );
+        for (Player player : players) {
+            if(player.getAtBats() == 0){
+                writer.printf("%-12.12s %-5d %-7d %-s\n", player.getName(), player.getHits(), player.getAtBats(), "-");
+            }
+            writer.printf("%-12.12s %-5d %-7d %-10.3f\n", player.getName(), player.getHits(), player.getAtBats(), player.getBattingAverage());
+        }
+        writer.print("****************************************");
+        writer.close();
     }
 }
