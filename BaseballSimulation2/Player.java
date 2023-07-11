@@ -131,7 +131,7 @@ public class Player {
         if(atBats == 0){
             return 0;
         } else{
-            return hits/atBats;
+            return (double)hits/(double)atBats;
         }
     }
 
