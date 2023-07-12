@@ -10,7 +10,7 @@ public class Ringer extends Player {
         
         //simulate two dice rolls
         int dice1 = rand.nextInt(3) + 1;
-        int dice2 = rand.nextInt(10) + 1;
+        int dice2 = rand.nextInt(3) + 1;
         
         System.out.printf("  Rolled: %d", dice1);
         System.out.printf(" %d    ", dice2);
