@@ -82,8 +82,8 @@ public class BatterUp {
                 }else{
                     movePlayers(battingValue);
                 }
-                inning++;
             }
+            inning++;
             outs = 0;
         }
         printStats();

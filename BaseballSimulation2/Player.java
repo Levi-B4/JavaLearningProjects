@@ -57,14 +57,10 @@ public class Player {
         balls = 0;
         
         int batterBatResult;
-        int currentBalls;
         while(strikes < 3 && balls < 4){
-            currentBalls = balls;
             batterBatResult = bat();
             if(batterBatResult > 0){
-                if(currentBalls == balls){
-                    hits++;
-                }
+                hits++;
                 return batterBatResult;
             }
         }

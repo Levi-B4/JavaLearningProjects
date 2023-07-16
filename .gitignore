@@ -1,8 +1,8 @@
 #BatterUp output GameStats file
 gameStats.txt
 
-# Compiled class file
-*.class
+# Compiled class file, impliment once revised
+#*.class
 
 # Log file
 *.log
